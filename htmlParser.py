@@ -5,6 +5,7 @@ class Parser(HTMLParser):
     """
         parser text of file and return the useful content
     """
+
     def __init__(self):
         HTMLParser.__init__(self)
         self.docID = ''
@@ -29,7 +30,5 @@ class Parser(HTMLParser):
         elif self.status == "text":
             self.filterData += data
 
-
     def getFilterData(self):
         return self.filterData
-

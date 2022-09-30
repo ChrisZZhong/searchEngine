@@ -39,7 +39,6 @@ def writeIndexToRes(Type, termDictTotal):
 
 
 def mergeDict(termDictTotal, tempDict):
-
     for term, tf in tempDict.items():
         for docId, frequency in tf.items():
             if term not in termDictTotal:
@@ -72,29 +71,38 @@ def buildIndexByType(filePaths, Type):
     """
     global constraint
     global termDict
+    global termDictOfFile
     start = time.time()
+    flag = False
     for filePath in filePaths:
         # print(f"start processing {filePath} Type = {Type}")
         tokens, docId = getTokens(filePath, Type)
         # print(f"{Type} length {len(tokens)}")
+
         if Type != "position":
             for token in tokens:
                 addTermIndex(token, docId)
             if len(termDict.keys()) >= constraint:
+                flag = True
                 writeTempFile()
         else:
             for idx, token in enumerate(tokens):
                 addTermPositionIndex(idx, token, docId)
             if len(termDict.keys()) >= constraint:
+                flag = True
                 writeTempFile()
+    if not flag:
+        writeTempFile()
     merge = time.time()
     termDictTotal = mergeFile()
     end = time.time()
 
-    indicates = calculate_term_list()
+    indicates = calculateTermList()
     evaluate(indicates, start, merge, end, Type)
     # write termDictTotal to res
     writeIndexToRes(Type, termDictTotal)
+    termDictOfFile = {}
+    termDict = {}
 
 
 def addTermPositionIndex(position, term, docId):
@@ -131,7 +139,7 @@ def addTermIndex(term, docId):
             termDictOfFile[term] += 1
 
 
-def calculate_term_list():
+def calculateTermList():
     global termDictOfFile
 
     num = len(termDictOfFile.keys())

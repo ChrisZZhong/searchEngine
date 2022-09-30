@@ -14,8 +14,8 @@ def run():
     for filename in os.listdir(inputPath):
         inputFilePaths.append(f"{inputPath}/{filename}")
 
-    Types = ["term", "phrases", "stem", "position"]  # "phrases" "term"
-    # Types = ["phrases", "stem", "position"]  # "phrases" "term"
+    # Types = ["term", "phrases", "stem", "position"]  # "phrases" "term"
+    Types = ["phrases"]  # "phrases" "term"
     # tempFile store temp file
     if not Path("./tempFile").exists():
         Path("./tempFile").mkdir()
@@ -26,8 +26,5 @@ def run():
     for Type in Types:
         buildIndexByType(inputFilePaths, Type)
 
+
 run()
-
-
-
-
