@@ -268,6 +268,7 @@ def processPipLine(text, Type):
 
     text = normalizeDate(text)  # date may exist AUG 4, 2023 (many spaces between)
     if Type == "phrases":
+        print("processing, this may takes 20 mins to finish")
         text = cleaningTextForPhrases(text, Type)
         tokens = splitByType(text, Type)
         tokens = identify2_3termPhrases(tokens)

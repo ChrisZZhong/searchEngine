@@ -29,8 +29,8 @@ def writeTempFile():
     fileCounter += 1
 
 
-def writeIndexToRes(Type, termDictTotal):
-    with open(f"./index/{Type}.json", "w", encoding="UTF-8") as f:
+def writeIndexToRes(Type, termDictTotal, outPutPath):
+    with open(f"{outPutPath}{Type}.json", "w", encoding="UTF-8") as f:
         te = {}
         for term in sorted(termDictTotal.keys()):
             te[term] = termDictTotal[term]
@@ -61,7 +61,7 @@ def mergeFile():
     return termDictTotal
 
 
-def buildIndexByType(filePaths, Type):
+def buildIndexByType(filePaths, Type, outPutPath):
     """
     main function of building index
     traverse all files to build index according to the Type
@@ -75,9 +75,7 @@ def buildIndexByType(filePaths, Type):
     start = time.time()
     flag = False
     for filePath in filePaths:
-        # print(f"start processing {filePath} Type = {Type}")
         tokens, docId = getTokens(filePath, Type)
-        # print(f"{Type} length {len(tokens)}")
 
         if Type != "position":
             for token in tokens:
@@ -100,7 +98,7 @@ def buildIndexByType(filePaths, Type):
     indicates = calculateTermList()
     evaluate(indicates, start, merge, end, Type)
     # write termDictTotal to res
-    writeIndexToRes(Type, termDictTotal)
+    writeIndexToRes(Type, termDictTotal, outPutPath)
     termDictOfFile = {}
     termDict = {}
 
