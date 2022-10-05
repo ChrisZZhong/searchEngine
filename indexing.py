@@ -2,13 +2,13 @@ import statistics
 import time
 import json
 
-from preprocessing import getTokens
+from preprocessing import getTokens, read_collection
 
 # termDIct is the term dict of one file for one Type
 termDict = dict()
 # termDictOfFile is the term dict of all files for one Type
 termDictOfFile = dict()
-constraint = 1000
+constraint = 10000000
 tempFiles = []
 fileCounter = 0
 tempfilePath = "./tempFile/"
@@ -74,21 +74,24 @@ def buildIndexByType(filePaths, Type, outPutPath):
     global termDictOfFile
     start = time.time()
     flag = False
+    print("processing, this may takes a few mins to finish")
     for filePath in filePaths:
-        tokens, docId = getTokens(filePath, Type)
+        docs = read_collection(filePath)
+        for doc in docs:
+            tokens, docId = getTokens(doc, Type)
 
-        if Type != "position":
-            for token in tokens:
-                addTermIndex(token, docId)
-            if len(termDict.keys()) >= constraint:
-                flag = True
-                writeTempFile()
-        else:
-            for idx, token in enumerate(tokens):
-                addTermPositionIndex(idx, token, docId)
-            if len(termDict.keys()) >= constraint:
-                flag = True
-                writeTempFile()
+            if Type != "position":
+                for token in tokens:
+                    addTermIndex(token, docId)
+                if len(termDict.keys()) >= constraint:
+                    flag = True
+                    writeTempFile()
+            else:
+                for idx, token in enumerate(tokens):
+                    addTermPositionIndex(idx, token, docId)
+                if len(termDict.keys()) >= constraint:
+                    flag = True
+                    writeTempFile()
     if not flag:
         writeTempFile()
     merge = time.time()
@@ -168,8 +171,9 @@ def evaluate(indicates, start, merge, end, Type):
     elif Type == 'position':
         print("POSITIONAL INDEX")
 
-    print(f"Execution Time Total: {round(end - start, 2)} s")
-    print(f"Time to Merge Temp Files: {round(end - merge, 2)} s")
+    print(f"Execution Time till merge: {round((merge - start) * 1000)} ms")
+    print(f"Time to Merge Temp Files: {round((end - merge) * 1000)} ms")
+    print(f"Execution Time total: {round((end - start) * 1000)} ms")
 
     print("Terms in dict: " + str(indicates[0]))
     print("Max df: " + str(indicates[1]))

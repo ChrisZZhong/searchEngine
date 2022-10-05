@@ -1,11 +1,21 @@
 from datetime import datetime
-import spacy
 from nltk.stem import PorterStemmer
 
 import regex as re
 
 from htmlParser import Parser
 import consts
+
+
+def read_collection(file_path):
+    """This function takes a single file and returns a list of strings. Each
+    string is a document (between opening and closing <DOC> tags."""
+
+    with open(file_path, 'r') as wholeFile:
+        text = wholeFile.read()
+        text = text.replace('</DOC>', '</DOC> BREAK_NEW_DOC')
+        documents = text.split('BREAK_NEW_DOC')
+    return documents
 
 
 def readFile(filePath):
@@ -235,15 +245,11 @@ def replaceStopWord(text):
 
 def identify2_3termPhrases(tokens):
     res = []
-    sp = spacy.load('en_core_web_sm')
     for token in tokens:
         token = token.strip()
         # recognize useful phrases
-        sen = sp(token).ents
-        if sen:
-            for phrase in sen:
-                if len(phrase.lemma_.split()) > 1:
-                    res.append(phrase.lemma_)
+        if len(token) > 1:
+            res.append(token)
     return res
 
 
@@ -268,7 +274,6 @@ def processPipLine(text, Type):
 
     text = normalizeDate(text)  # date may exist AUG 4, 2023 (many spaces between)
     if Type == "phrases":
-        print("processing, this may takes 20 mins to finish")
         text = cleaningTextForPhrases(text, Type)
         tokens = splitByType(text, Type)
         tokens = identify2_3termPhrases(tokens)
@@ -298,10 +303,10 @@ def getSingle(singlePotentialTerms):
     return res
 
 
-def getTokens(filePath, Type):
+def getTokens(doc, Type):
     # get Token by type
 
-    text = readFile(filePath)
+    text = doc.lower().replace(". ", " ").replace("\n", " ")
     docId = getDocId(text)
     text = getFilterData(text)
     # tokens[term, term not include stop word, phrases, stem]
