@@ -1,0 +1,80 @@
+now building index. Please wait a few seconds
+single successfully built
+now building index. Please wait a few seconds
+stem successfully built
+now building index. Please wait a few seconds
+phrase successfully built
+now building index. Please wait a few seconds
+positional successfully built
+now processing query statically. Please wait a few seconds
+now load indexes
+now Query Processing
++-----------------+-------+-------+
+| -               | STMAP | -     |
++-----------------+-------+-------+
+| Retrieval Model | MAP   | Time  |
++-----------------+-------+-------+
+| bm25            | 0.423 | 1.252 |
++-----------------+-------+-------+
+now processing query statically. Please wait a few seconds
+now load indexes
+now Query Processing
++-----------------+-------+-------+
+| -               | STMAP | -     |
++-----------------+-------+-------+
+| Retrieval Model | MAP   | Time  |
++-----------------+-------+-------+
+| dirichlet       | 0.101 | 2.188 |
++-----------------+-------+-------+
+now processing query statically. Please wait a few seconds
+now load indexes
+now Query Processing
++-----------------+-------+-------+
+| -               | STMAP | -     |
++-----------------+-------+-------+
+| Retrieval Model | MAP   | Time  |
++-----------------+-------+-------+
+| vsm             | 0.267 | 1.668 |
++-----------------+-------+-------+
+now processing query statically. Please wait a few seconds
+now load indexes
+now Query Processing
++-----------------+-------+-------+
+| -               | SMAP  | -     |
++-----------------+-------+-------+
+| Retrieval Model | MAP   | Time  |
++-----------------+-------+-------+
+| bm25            | 0.428 | 1.826 |
++-----------------+-------+-------+
+now processing query statically. Please wait a few seconds
+now load indexes
+now Query Processing
++-----------------+-------+-------+
+| -               | SMAP  | -     |
++-----------------+-------+-------+
+| Retrieval Model | MAP   | Time  |
++-----------------+-------+-------+
+| dirichlet       | 0.102 | 3.071 |
++-----------------+-------+-------+
+now processing query statically. Please wait a few seconds
+now load indexes
+now Query Processing
++-----------------+-------+-------+
+| -               | SMAP  | -     |
++-----------------+-------+-------+
+| Retrieval Model | MAP   | Time  |
++-----------------+-------+-------+
+| vsm             | 0.300 | 2.526 |
++-----------------+-------+-------+
+now processing query dynamically. Please wait a few seconds
+now Query Processing
+
+5 queries processed based on phrase index.
+8 queries processed based on positional index.
+8 queries processed based on stem index.
++-----------------+-------+------------+
+| Retrieval Model | MAP   | Total Time |
++-----------------+-------+------------+
+| bm25            | 0.328 | 2.763      |
++-----------------+-------+------------+
+result based on qrel.txt and result file, please change qrel.txt manually
