@@ -1,5 +1,5 @@
 How to Run:
-    # please run code in windows
+    # please run code in windows, install requirements.txt first
 
     please make sure all input path and output path are correctly
     1. building the index
